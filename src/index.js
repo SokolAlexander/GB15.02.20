@@ -7,7 +7,9 @@ import reportWebVitals from './reportWebVitals';
 const myName = 'Alexander';
 
 ReactDOM.render(
-  <App name={myName + '!'} />,
+  <React.StrictMode>
+    <App name={myName + '!'} />
+  </React.StrictMode>,
   document.getElementById("root")
 );
 
