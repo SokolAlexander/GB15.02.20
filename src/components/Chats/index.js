@@ -23,7 +23,7 @@ export default function Chats() {
     {
       id: "id1",
       name: "Chat 1",
-      messageList: [{ author: AUTHORS.ME, text: "message 1" }],
+      messageList: ['id1'],
     },
     {
       id: "id2",
@@ -39,6 +39,10 @@ export default function Chats() {
       ],
     },
   ]);
+
+  const messages = {
+    id1: { author: AUTHORS.ME, text: "message 1" },
+  };
 
   const selectedChat = useMemo(
     () => chats.find((chat) => chat.id === params.chatId),
