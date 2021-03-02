@@ -1,4 +1,13 @@
-import { TextField, Fab, Button } from "@material-ui/core";
+import {
+  TextField,
+  Fab,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@material-ui/core";
 import { useState, useCallback, useEffect, useMemo } from "react";
 import {
   ThemeProvider,
@@ -6,43 +15,58 @@ import {
   createMuiTheme,
 } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
+import { useParams, useRouteMatch } from "react-router-dom";
+
 import MessagesList from "../MessagesList";
 import Input from "../Input";
 import { AUTHORS } from "../../utils/constants";
 import ChatList from "../ChatList";
 import { usePrev } from "../../utils/hooks";
-import { useParams, useRouteMatch } from "react-router-dom";
+import AddChatDialog from "../AddChatDialog";
+import { useSelector, useDispatch } from "react-redux";
+import { addChat } from "../../store/chats/actions";
 
 export default function Chats() {
   const params = useParams();
   const match = useRouteMatch();
 
-  console.log(match);
+  const chats = useSelector(state => state.chats.chatList);
+  const dispatch = useDispatch();
 
-  const [chats, setChats] = useState([
-    {
-      id: "id1",
-      name: "Chat 1",
-      messageList: ['id1'],
-    },
-    {
-      id: "id2",
-      name: "Chat 2",
-      messageList: [{ author: AUTHORS.ME, text: "message 2" }],
-    },
-    {
-      id: "id3",
-      name: "Chat 3",
-      messageList: [
-        { author: AUTHORS.ME, text: "message 3" },
-        { author: AUTHORS.BOT, text: "how you doin" },
-      ],
-    },
-  ]);
+  const [visible, setVisible] = useState(false);
+  const addNewChat = useCallback((name) => {
+    dispatch(addChat(name));
+    setVisible(false);
+  }, [dispatch]);
 
-  const messages = {
-    id1: { author: AUTHORS.ME, text: "message 1" },
-  };
+  // const [chats, setChats] = useState([
+  //   {
+  //     id: "id1",
+  //     name: "Chat 1",
+  //     messageList: ["id1"],
+  //   },
+  //   {
+  //     id: "id2",
+  //     name: "Chat 2",
+  //     messageList: [{ author: AUTHORS.ME, text: "message 2" }],
+  //   },
+  //   {
+  //     id: "id3",
+  //     name: "Chat 3",
+  //     messageList: [
+  //       { author: AUTHORS.ME, text: "message 3" },
+  //       { author: AUTHORS.BOT, text: "how you doin" },
+  //     ],
+  //   },
+  // ]);
+
+  const handleClose = useCallback(() => {
+    setVisible(false);
+  }, []);
+  const handleOpen = useCallback(() => {
+    console.log("-0-0-0-0-0--0");
+    setVisible(true);
+  }, []);
 
   const selectedChat = useMemo(
     () => chats.find((chat) => chat.id === params.chatId),
@@ -53,26 +77,21 @@ export default function Chats() {
     () => chats.findIndex((chat) => chat.id === params.chatId),
     [params, chats]
   );
-  // const [messages, setMessages] = useState([
-  //   { author: AUTHORS.ME, text: "message 1" },
-  //   { author: AUTHORS.ME, text: "message 2" },
-  //   { author: AUTHORS.ME, text: "message 3" },
-  // ]);
 
-  // const prevMessages = usePrev(messages);
+  const onAddChatPress = useCallback(() => {}, []);
 
-  const addMessage = useCallback(
-    (text, author) => {
-      const newChats = [...chats];
-      newChats[selectedChatIndex] = {
-          ...selectedChat,
-          messageList: [ ...selectedChat.messageList, { text, author } ],
-      }
+  // const addMessage = useCallback(
+  //   (text, author) => {
+  //     const newChats = [...chats];
+  //     newChats[selectedChatIndex] = {
+  //       ...selectedChat,
+  //       messageList: [...selectedChat.messageList, { text, author }],
+  //     };
 
-      setChats(newChats);
-    },
-    [chats, selectedChat, selectedChatIndex]
-  );
+  //     setChats(newChats);
+  //   },
+  //   [chats, selectedChat, selectedChatIndex]
+  // );
 
   // useEffect(() => {
   //   let timeout;
@@ -91,7 +110,12 @@ export default function Chats() {
     return (
       <>
         <span>Please select a chat</span>
-        <ChatList chats={chats} chatId={null} />
+        <ChatList chats={chats} chatId={null} onAddChat={handleOpen} />
+        <AddChatDialog
+          onClose={handleClose}
+          onSubmit={addNewChat}
+          visible={visible}
+        />
       </>
     );
   }
@@ -99,9 +123,14 @@ export default function Chats() {
   return (
     <>
       <header>Header</header>
-      <ChatList chats={chats} chatId={params.chatId} />
+      <ChatList chats={chats} chatId={params.chatId} onAddChat={handleOpen} />
       <MessagesList messages={selectedChat?.messageList || []} />
-      <Input onAddMessage={addMessage} />
+      {/* <Input onAddMessage={addMessage} /> */}
+      <AddChatDialog
+        visible={visible}
+        onClose={handleClose}
+        onSubmit={addNewChat}
+      />
     </>
   );
 }
