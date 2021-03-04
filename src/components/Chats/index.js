@@ -1,3 +1,4 @@
+import React from "react";
 import {
   TextField,
   Fab,
@@ -8,7 +9,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@material-ui/core";
-import { useState, useCallback, useEffect, useMemo } from "react";
+// import { useState, useCallback, useEffect, useMemo } from "react";
 import {
   ThemeProvider,
   useTheme,
@@ -23,114 +24,179 @@ import { AUTHORS } from "../../utils/constants";
 import ChatList from "../ChatList";
 import { usePrev } from "../../utils/hooks";
 import AddChatDialog from "../AddChatDialog";
-import { useSelector, useDispatch } from "react-redux";
+// import { useSelector, useDispatch } from "react-redux";
 import { addChat } from "../../store/chats/actions";
+import { connect } from "react-redux";
 
-export default function Chats() {
-  const params = useParams();
-  const match = useRouteMatch();
+// export default function Chats() {
+//   const params = useParams();
+//   const match = useRouteMatch();
 
-  const chats = useSelector(state => state.chats.chatList);
-  const dispatch = useDispatch();
+//   const chats = useSelector(state => state.chats.chatList);
+//   const dispatch = useDispatch();
 
-  const [visible, setVisible] = useState(false);
-  const addNewChat = useCallback((name) => {
-    dispatch(addChat(name));
-    setVisible(false);
-  }, [dispatch]);
+//   const [visible, setVisible] = useState(false);
+//   const addNewChat = useCallback((name) => {
+//     dispatch(addChat(name));
+//     setVisible(false);
+//   }, [dispatch]);
 
-  // const [chats, setChats] = useState([
-  //   {
-  //     id: "id1",
-  //     name: "Chat 1",
-  //     messageList: ["id1"],
-  //   },
-  //   {
-  //     id: "id2",
-  //     name: "Chat 2",
-  //     messageList: [{ author: AUTHORS.ME, text: "message 2" }],
-  //   },
-  //   {
-  //     id: "id3",
-  //     name: "Chat 3",
-  //     messageList: [
-  //       { author: AUTHORS.ME, text: "message 3" },
-  //       { author: AUTHORS.BOT, text: "how you doin" },
-  //     ],
-  //   },
-  // ]);
+//   // const [chats, setChats] = useState([
+//   //   {
+//   //     id: "id1",
+//   //     name: "Chat 1",
+//   //     messageList: ["id1"],
+//   //   },
+//   //   {
+//   //     id: "id2",
+//   //     name: "Chat 2",
+//   //     messageList: [{ author: AUTHORS.ME, text: "message 2" }],
+//   //   },
+//   //   {
+//   //     id: "id3",
+//   //     name: "Chat 3",
+//   //     messageList: [
+//   //       { author: AUTHORS.ME, text: "message 3" },
+//   //       { author: AUTHORS.BOT, text: "how you doin" },
+//   //     ],
+//   //   },
+//   // ]);
 
-  const handleClose = useCallback(() => {
-    setVisible(false);
-  }, []);
-  const handleOpen = useCallback(() => {
-    console.log("-0-0-0-0-0--0");
-    setVisible(true);
-  }, []);
+//   const handleClose = useCallback(() => {
+//     setVisible(false);
+//   }, []);
+//   const handleOpen = useCallback(() => {
+//     console.log("-0-0-0-0-0--0");
+//     setVisible(true);
+//   }, []);
 
-  const selectedChat = useMemo(
-    () => chats.find((chat) => chat.id === params.chatId),
-    [params, chats]
-  );
+//   const selectedChat = useMemo(
+//     () => chats.find((chat) => chat.id === params.chatId),
+//     [params, chats]
+//   );
 
-  const selectedChatIndex = useMemo(
-    () => chats.findIndex((chat) => chat.id === params.chatId),
-    [params, chats]
-  );
+//   const selectedChatIndex = useMemo(
+//     () => chats.findIndex((chat) => chat.id === params.chatId),
+//     [params, chats]
+//   );
 
-  const onAddChatPress = useCallback(() => {}, []);
+//   const onAddChatPress = useCallback(() => {}, []);
 
-  // const addMessage = useCallback(
-  //   (text, author) => {
-  //     const newChats = [...chats];
-  //     newChats[selectedChatIndex] = {
-  //       ...selectedChat,
-  //       messageList: [...selectedChat.messageList, { text, author }],
-  //     };
+//   // const addMessage = useCallback(
+//   //   (text, author) => {
+//   //     const newChats = [...chats];
+//   //     newChats[selectedChatIndex] = {
+//   //       ...selectedChat,
+//   //       messageList: [...selectedChat.messageList, { text, author }],
+//   //     };
 
-  //     setChats(newChats);
-  //   },
-  //   [chats, selectedChat, selectedChatIndex]
-  // );
+//   //     setChats(newChats);
+//   //   },
+//   //   [chats, selectedChat, selectedChatIndex]
+//   // );
 
-  // useEffect(() => {
-  //   let timeout;
+//   // useEffect(() => {
+//   //   let timeout;
 
-  //   if (
-  //     prevMessages?.length < messages.length &&
-  //     messages[messages.length - 1]?.author !== AUTHORS.BOT
-  //   ) {
-  //     timeout = setTimeout(() => addMessage("Hello", AUTHORS.BOT), 1000);
-  //   }
+//   //   if (
+//   //     prevMessages?.length < messages.length &&
+//   //     messages[messages.length - 1]?.author !== AUTHORS.BOT
+//   //   ) {
+//   //     timeout = setTimeout(() => addMessage("Hello", AUTHORS.BOT), 1000);
+//   //   }
 
-  //   return () => clearTimeout(timeout);
-  // }, [messages, addMessage, prevMessages]);
+//   //   return () => clearTimeout(timeout);
+//   // }, [messages, addMessage, prevMessages]);
 
-  if (!params.chatId || !selectedChat) {
+//   if (!params.chatId || !selectedChat) {
+//     return (
+//       <>
+//         <span>Please select a chat</span>
+//         <ChatList chats={chats} chatId={null} onAddChat={handleOpen} />
+//         <AddChatDialog
+//           onClose={handleClose}
+//           onSubmit={addNewChat}
+//           visible={visible}
+//         />
+//       </>
+//     );
+//   }
+
+//   return (
+//     <>
+//       <header>Header</header>
+//       <ChatList chats={chats} chatId={params.chatId} onAddChat={handleOpen} />
+//       <MessagesList messages={selectedChat?.messageList || []} />
+//       {/* <Input onAddMessage={addMessage} /> */}
+//       <AddChatDialog
+//         visible={visible}
+//         onClose={handleClose}
+//         onSubmit={addNewChat}
+//       />
+//     </>
+//   );
+// }
+
+class Chats extends React.Component {
+  state = {
+    chats: [
+      {
+        name: "Chat 1",
+        id: "id0",
+      },
+      {
+        name: "Chat 2",
+        id: "id1",
+      },
+    ],
+    visble: false,
+  };
+
+  handleAddChatPress = () => {
+    this.setState({ visible: true });
+  };
+
+  handleClose = () => {
+    this.setState({ visible: false });
+  };
+
+  addNewChat = (chatName) => {
+    const { addNewChat } = this.props;
+    addNewChat(chatName);
+    this.setState({ visible: false });
+    // this.setState((prevState) => ({
+    //   chats: [...prevState.chats, { id: `id${prevState.chats.length}`, name: chatName }],
+    //   visible: false,
+    // }));
+  };
+
+  render() {
+    const { visible } = this.state;
+    const { chatList } = this.props;
+
     return (
       <>
-        <span>Please select a chat</span>
-        <ChatList chats={chats} chatId={null} onAddChat={handleOpen} />
+        <ChatList
+          chats={chatList}
+          chatId={this.props.params?.chatId}
+          onAddChat={this.handleAddChatPress}
+        />
         <AddChatDialog
-          onClose={handleClose}
-          onSubmit={addNewChat}
           visible={visible}
+          onClose={this.handleClose}
+          onSubmit={this.addNewChat}
         />
       </>
     );
   }
-
-  return (
-    <>
-      <header>Header</header>
-      <ChatList chats={chats} chatId={params.chatId} onAddChat={handleOpen} />
-      <MessagesList messages={selectedChat?.messageList || []} />
-      {/* <Input onAddMessage={addMessage} /> */}
-      <AddChatDialog
-        visible={visible}
-        onClose={handleClose}
-        onSubmit={addNewChat}
-      />
-    </>
-  );
 }
+
+const mapStateToProps = state => ({
+  chatList: state.chats.chatList,
+});
+
+const mapDispatchToProps = {
+  addNewChat: addChat
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Chats);

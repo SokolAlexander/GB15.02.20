@@ -25,13 +25,16 @@ export default function Router() {
           <Profile />
         </Route>
 
-        <Route exact path="/chats">
-          <Chats />
-        </Route>
+        <Route
+          exact
+          path="/chats"
+          render={({ match }) => <Chats params={match.params} />}
+        />
 
-        <Route path="/chats/:chatId">
-          <Chats />
-        </Route>
+        <Route
+          path="/chats/:chatId"
+          render={({ match }) => <Chats params={match.params} />}
+        />
 
         <Route exact path="/">
           <Home />

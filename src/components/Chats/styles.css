@@ -1,0 +1,7 @@
+.wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  border-top: 1px solid gray;
+  margin-top: 20px;
+  padding-top: 20px;
+}
