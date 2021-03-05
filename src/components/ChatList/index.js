@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export default function ChatList({ chats, chatId, onAddChat }) {
   console.log(chatId);
   return (
-    <>
+    <div>
       {chats.map((chat, i) => (
         <div key={i}>
           <Link to={`/chats/${chat.id}`}>
@@ -14,6 +14,6 @@ export default function ChatList({ chats, chatId, onAddChat }) {
         </div>
       ))}
       <div onClick={onAddChat} style={{cursor: 'pointer'}}>Add Chat</div>
-    </>
+    </div>
   );
 }

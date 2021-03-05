@@ -4,13 +4,17 @@ import { Provider } from 'react-redux';
 import './index.css';
 import Router from './Router';
 import reportWebVitals from './reportWebVitals';
-import store from './store';
+import {store, persistor} from './store';
+import { PersistGate } from 'redux-persist/integration/react'
+
 
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Router />
+      <PersistGate loading={null} persistor={persistor}>
+        <Router />
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
