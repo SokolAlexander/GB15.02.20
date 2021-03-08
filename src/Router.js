@@ -2,6 +2,8 @@ import { BrowserRouter, Link, Switch, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Chats from "./components/Chats";
 import Profile from "./components/Profile";
+import { useEffect } from "react";
+import { API_URL } from "./utils/constants";
 
 export default function Router() {
   return (
